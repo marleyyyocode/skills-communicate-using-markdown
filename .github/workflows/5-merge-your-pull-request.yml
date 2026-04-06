@@ -45,6 +45,11 @@ jobs:
   finish_exercise:
     name: Finish Exercise
     needs: [find_exercise, post_review_content]
+    if: |
+      !cancelled() &&
+      !github.event.repository.is_template &&
+      github.head_ref == 'start-blog' &&
+      github.event.pull_request.merged == true
     uses: skills/exercise-toolkit/.github/workflows/finish-exercise.yml@v0.6.0
     with:
       issue-url: ${{ needs.find_exercise.outputs.issue-url }}
@@ -53,6 +58,11 @@ jobs:
   disable_workflow:
     name: Disable this workflow
     needs: [find_exercise, post_review_content]
+    if: |
+      !cancelled() &&
+      !github.event.repository.is_template &&
+      github.head_ref == 'start-blog' &&
+      github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
